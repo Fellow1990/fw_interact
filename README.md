@@ -7,11 +7,11 @@ https://discord.gg/bJCsrG5h2G
 **Add this to the file:** <sub>ox_inventory\data\items.lua</sub>
 ```
 ['handcuffs'] = {
-		label = 'Menottes',
-		weight = 10,
-		stack = false,
-		consume = 0
-	},
+	label = 'Menottes',
+	weight = 10,
+	stack = false,
+	consume = 0
+},
 
 ['rope'] = {
 	label = 'Corde',
