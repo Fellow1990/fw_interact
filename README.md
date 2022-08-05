@@ -11,7 +11,7 @@ https://discord.gg/bJCsrG5h2G
 ###### [ox_inventory](https://github.com/overextended/ox_inventory)
 ###### [Qtarget](https://github.com/overextended/qtarget)
 
-**Add this to the file:** <sub>ox_inventory\data\items.lua</sub>
+## **Add this to the file:** <sub>ox_inventory\data\items.lua</sub>
 ```
 ['handcuffs'] = {
 	label = 'Menottes',
@@ -28,4 +28,4 @@ https://discord.gg/bJCsrG5h2G
 },
 ```
 
-**After adding each item in the shops you want:** <sub>ox_inventory\data\shops.lua</sub>
+## **After adding each item in the shops you want:** <sub>ox_inventory\data\shops.lua</sub>
