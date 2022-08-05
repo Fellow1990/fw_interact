@@ -2,11 +2,11 @@
 local isHandcuffed = false
 
 AddEventHandler('handcuff', function(data)
-	TriggerServerEvent('esx_policejob:handcuff', GetPlayerServerId(NetworkGetPlayerIndexFromPed(data.entity)))
+	TriggerServerEvent('esx_interact:handcuff', GetPlayerServerId(NetworkGetPlayerIndexFromPed(data.entity)))
 end)
 
-RegisterNetEvent('esx_policejob:handcuff')
-AddEventHandler('esx_policejob:handcuff', function()
+RegisterNetEvent('esx_interact:handcuff')
+AddEventHandler('esx_interact:handcuff', function()
 	isHandcuffed = not isHandcuffed
 	local playerPed = PlayerPedId()
 	if isHandcuffed then
@@ -92,11 +92,11 @@ end)
 
 -- Put in vehicle
 AddEventHandler('putveh', function(data)
-	TriggerServerEvent('esx_policejob:putInVehicle', GetPlayerServerId(NetworkGetPlayerIndexFromPed(data.entity)))
+	TriggerServerEvent('esx_interact:putInVehicle', GetPlayerServerId(NetworkGetPlayerIndexFromPed(data.entity)))
 end)
 
-RegisterNetEvent('esx_policejob:putInVehicle')
-AddEventHandler('esx_policejob:putInVehicle', function()
+RegisterNetEvent('esx_interact:putInVehicle')
+AddEventHandler('esx_interact:putInVehicle', function()
 	if isHandcuffed then
 		local playerPed = PlayerPedId()
 		local vehicle, distance = ESX.Game.GetClosestVehicle()
@@ -122,12 +122,12 @@ end)
 AddEventHandler('outveh', function(data)
 	local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
 	if closestPlayer ~= -1 and closestDistance <= 3.0 then
-		TriggerServerEvent('esx_policejob:OutVehicle', GetPlayerServerId(closestPlayer))
+		TriggerServerEvent('esx_interact:OutVehicle', GetPlayerServerId(closestPlayer))
 	end
 end)
 
-RegisterNetEvent('esx_policejob:OutVehicle')
-AddEventHandler('esx_policejob:OutVehicle', function()
+RegisterNetEvent('esx_interact:OutVehicle')
+AddEventHandler('esx_interact:OutVehicle', function()
 	local playerPed = PlayerPedId()
 	if IsPedSittingInAnyVehicle(playerPed) then
 		local vehicle = GetVehiclePedIsIn(playerPed, false)
