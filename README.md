@@ -4,6 +4,8 @@ Fellow | Communauté ✨
 
 https://discord.gg/bJCsrG5h2G
 
+✅ Vídeo: https://www.youtube.com/watch?v=sxysJ5IHvwc
+
 **Add this to the file:** <sub>ox_inventory\data\items.lua</sub>
 ```
 ['handcuffs'] = {
