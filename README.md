@@ -13,12 +13,12 @@ https://discord.gg/bJCsrG5h2G
 		consume = 0
 	},
 
-	['rope'] = {
-		label = 'Corde',
-		weight = 10,
-		stack = false,
-		consume = 0
-	},
+['rope'] = {
+	label = 'Corde',
+	weight = 10,
+	stack = false,
+	consume = 0
+},
 ```
 
 **After adding each item in the shops you want:** <sub>ox_inventory\data\shops.lua</sub>
