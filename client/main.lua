@@ -1,5 +1,5 @@
 -- Handcuff
-local isHandcuffed = false
+local isHandcuffed, handcuffTimer = false, {}
 
 AddEventHandler('handcuff', function(data)
 	TriggerServerEvent('esx_interact:handcuff', GetPlayerServerId(NetworkGetPlayerIndexFromPed(data.entity)))
@@ -21,12 +21,41 @@ AddEventHandler('esx_interact:handcuff', function()
 		SetCurrentPedWeapon(playerPed, GetHashKey('WEAPON_UNARMED'), true)
 		SetPedCanPlayGestureAnims(playerPed, false)
 		DisplayRadar(false)
+		if Config.EnableHandcuffTimer then
+			if handcuffTimer.active then
+				ESX.ClearTimeout(handcuffTimer.task)
+			end
+			StartHandcuffTimer()
+		end
 	else
+		if Config.EnableHandcuffTimer and handcuffTimer.active then
+			ESX.ClearTimeout(handcuffTimer.task)
+		end
 		ClearPedSecondaryTask(playerPed)
 		SetEnableHandcuffs(playerPed, false)
 		DisablePlayerFiring(playerPed, false)
 		SetPedCanPlayGestureAnims(playerPed, true)
 		DisplayRadar(true)
+	end
+end)
+
+RegisterNetEvent('esx_interact:unrestrain')
+AddEventHandler('esx_interact:unrestrain', function()
+	if isHandcuffed then
+		local playerPed = PlayerPedId()
+		isHandcuffed = false
+
+		ClearPedSecondaryTask(playerPed)
+		SetEnableHandcuffs(playerPed, false)
+		DisablePlayerFiring(playerPed, false)
+		SetPedCanPlayGestureAnims(playerPed, true)
+		FreezeEntityPosition(playerPed, false)
+		DisplayRadar(true)
+
+		-- end timer
+		if Config.EnableHandcuffTimer and handcuffTimer.active then
+			ESX.ClearTimeout(handcuffTimer.task)
+		end
 	end
 end)
 
@@ -81,12 +110,42 @@ CreateThread(function()
 	end
 end)
 
+function StartHandcuffTimer()
+	if Config.EnableHandcuffTimer and handcuffTimer.active then
+		ESX.ClearTimeout(handcuffTimer.task)
+	end
+
+	handcuffTimer.active = true
+
+	handcuffTimer.task = ESX.SetTimeout(Config.HandcuffTimer, function()
+		lib.notify({
+			description = Config.Unrestrained_timer,
+			style = {
+				backgroundColor = '#000000',
+				color = '#ffffff'
+			},
+			icon = 'handcuffs',
+			type = 'inform'
+		})
+		TriggerEvent('esx_interact:unrestrain')
+		handcuffTimer.active = false
+	end)
+end
+
 -- Open inventory
 AddEventHandler('search', function(data)
 	if IsEntityPlayingAnim(data.entity, "missminuteman_1ig_2", "handsup_base", 3) or IsEntityPlayingAnim(data.entity, "mp_arresting", "idle", 3) then
 		exports.ox_inventory:openInventory('player', GetPlayerServerId(NetworkGetPlayerIndexFromPed(data.entity)))
 	else
-		ESX.ShowNotification(Config.ShowNotificationText, Config.ShowNotificationType, Config.ShowNotificationTime)
+		lib.notify({
+			description = Config.ShowNotificationText,
+			style = {
+				backgroundColor = '#000000',
+				color = '#ffffff'
+			},
+			icon = 'people-robbery',
+			type = 'error'
+		})
 	end
 end)
 
@@ -146,7 +205,7 @@ AddEventHandler('id-driver', function(data)
 end)
 
 -- Qtarget
-exports.qtarget:Player({
+exports.qtarget:Ped({
 	options = {
 		{
 			event = "search",

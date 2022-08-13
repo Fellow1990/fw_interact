@@ -4,7 +4,15 @@ AddEventHandler('esx_interact:handcuff', function(target)
 	if xPlayer.job.name == 'police' and xPlayer.getInventoryItem('handcuffs').count >= 1 or xPlayer.getInventoryItem('rope').count >= 1 then
 		TriggerClientEvent('esx_interact:handcuff', target)
 	else
-		xPlayer.showNotification(Config.RequiredItem)
+		lib.notify(xPlayer{
+			description = Config.RequiredItem,
+			style = {
+				backgroundColor = '#000000',
+				color = '#ffffff'
+			},
+			icon = 'people-robbery',
+			type = 'error'
+		})
 	end
 end)
 
