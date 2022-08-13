@@ -2,7 +2,11 @@
 local isHandcuffed, handcuffTimer = false, {}
 
 AddEventHandler('handcuff', function(data)
-	TriggerServerEvent('esx_interact:handcuff', GetPlayerServerId(NetworkGetPlayerIndexFromPed(data.entity)))
+	if IsEntityPlayingAnim(data.entity, "missminuteman_1ig_2", "handsup_base", 3) or IsEntityPlayingAnim(data.entity, "mp_arresting", "idle", 3) then
+		TriggerServerEvent('esx_interact:handcuff', GetPlayerServerId(NetworkGetPlayerIndexFromPed(data.entity)))
+	else
+		ESX.ShowNotification(Config.NotificationHandcuff , Config.ShowNotificationType, Config.ShowNotificationTime)
+	end
 end)
 
 RegisterNetEvent('esx_interact:handcuff')
