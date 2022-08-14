@@ -204,6 +204,28 @@ AddEventHandler('id-driver', function(data)
 	TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(NetworkGetPlayerIndexFromPed(data.entity)), GetPlayerServerId(PlayerId()), 'driver')
 end)
 
+-- Billing
+RegisterNetEvent('billing', function(data)
+	local player = ESX.Game.GetClosestPlayer()
+	if ESX.PlayerData.job and ESX.PlayerData.job.name == 'unemployed' then
+		lib.notify({
+			description = Config.Unemployed,
+			style = {
+				backgroundColor = '#000000',
+				color = '#ffffff'
+			},
+			icon = 'fa-x',
+			type = 'error'
+		})
+	else
+		local input = lib.inputDialog(Config.billing_title, {Config.input})
+		if input then
+			local lockerNumber = tonumber(input[1])
+			TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(player), 'society_'..ESX.PlayerData.job.name, (ESX.PlayerData.job.label), lockerNumber)
+		end
+	end
+end)
+
 -- Qtarget
 exports.qtarget:Player({
 	options = {
@@ -236,6 +258,12 @@ exports.qtarget:Player({
 			icon = Config.ID_driver_img,
 			label = Config.ID_driver,
 			num = 5
+		},
+		{
+			event = "billing",
+			icon = Config.billing_img,
+			label = Config.billing,
+			num = 6
 		},
 	},
 	distance = 2
