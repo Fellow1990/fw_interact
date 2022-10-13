@@ -265,7 +265,7 @@ exports.ox_target:addGlobalPlayer({
 	},
 })
 
-eexports.ox_target:addGlobalVehicle({
+exports.ox_target:addGlobalVehicle({
 	{
 		event = "outveh",
 		icon = Config.outveh_img,
