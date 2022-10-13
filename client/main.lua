@@ -226,7 +226,6 @@ RegisterNetEvent('billing', function(data)
 	end
 end)
 
--- Qtarget
 exports.ox_target:addGlobalPlayer({
 	{
 		event = "search",
