@@ -227,56 +227,50 @@ RegisterNetEvent('billing', function(data)
 end)
 
 -- Qtarget
-exports.qtarget:Player({
-	options = {
-		{
-			event = "search",
-			icon = Config.search_img,
-			label = Config.search,
-			num = 1
-		},
-		{
-			event = "handcuff",
-			icon = Config.handcuff_img,
-			label = Config.handcuff,
-			num = 2
-		},
-		{
-			event = "putveh",
-			icon = Config.putveh_img,
-			label = Config.putveh,
-			num = 3
-		},
-		{
-			event = "id",
-			icon = Config.ID_img,
-			label = Config.ID,
-			num = 4
-		},
-		{
-			event = "id-driver",
-			icon = Config.ID_driver_img,
-			label = Config.ID_driver,
-			num = 5
-		},
-		{
-			event = "billing",
-			icon = Config.billing_img,
-			label = Config.billing,
-			num = 6
-		},
+exports.ox_target:addGlobalPlayer({
+	{
+		event = "search",
+		icon = Config.search_img,
+		label = Config.search,
+		num = 1
 	},
-	distance = 2
+	{
+		event = "handcuff",
+		icon = Config.handcuff_img,
+		label = Config.handcuff,
+		num = 2
+	},
+	{
+		event = "putveh",
+		icon = Config.putveh_img,
+		label = Config.putveh,
+		num = 3
+	},
+	{
+		event = "id",
+		icon = Config.ID_img,
+		label = Config.ID,
+		num = 4
+	},
+	{
+		event = "id-driver",
+		icon = Config.ID_driver_img,
+		label = Config.ID_driver,
+		num = 5
+	},
+	{
+		event = "billing",
+		icon = Config.billing_img,
+		label = Config.billing,
+		num = 6
+	},
 })
 
-exports.qtarget:Vehicle({
-	options = {
-		{
-			event = "outveh",
-			icon = Config.outveh_img,
-			label = Config.outveh,
-			num = 1
-		},
+eexports.ox_target:addGlobalVehicle({
+	{
+		event = "outveh",
+		icon = Config.outveh_img,
+		label = Config.outveh,
+		num = 1
 	},
-	distance = 2
 })
