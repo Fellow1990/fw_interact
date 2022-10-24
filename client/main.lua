@@ -2,7 +2,21 @@
 local isHandcuffed, handcuffTimer = false, {}
 
 AddEventHandler('handcuff', function(data)
-	TriggerServerEvent('esx_interact:handcuff', GetPlayerServerId(NetworkGetPlayerIndexFromPed(data.entity)))
+	local handcuffs = exports.ox_inventory:Search('count', 'handcuffs')
+	local rope = exports.ox_inventory:Search('count', 'rope')
+	if ESX.PlayerData.job and ESX.PlayerData.job.name == 'police' and handcuffs >= 1 or rope >= 1 then
+		TriggerServerEvent('esx_interact:handcuff', GetPlayerServerId(NetworkGetPlayerIndexFromPed(data.entity)))
+	else
+		lib.notify({
+			description = Config.RequiredItem,
+			style = {
+				backgroundColor = '#000000',
+				color = '#ffffff'
+			},
+			icon = 'people-robbery',
+			type = 'error'
+		})
+	end
 end)
 
 RegisterNetEvent('esx_interact:handcuff')
