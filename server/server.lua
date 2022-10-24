@@ -1,19 +1,6 @@
 RegisterNetEvent('esx_interact:handcuff')
 AddEventHandler('esx_interact:handcuff', function(target)
-	local xPlayer = ESX.GetPlayerFromId(source)
-	if xPlayer.job.name == 'police' and xPlayer.getInventoryItem('handcuffs').count >= 1 or xPlayer.getInventoryItem('rope').count >= 1 then
-		TriggerClientEvent('esx_interact:handcuff', target)
-	else
-		lib.notify(xPlayer{
-			description = Config.RequiredItem,
-			style = {
-				backgroundColor = '#000000',
-				color = '#ffffff'
-			},
-			icon = 'people-robbery',
-			type = 'error'
-		})
-	end
+	TriggerClientEvent('esx_interact:handcuff', target)
 end)
 
 RegisterNetEvent('esx_interact:putInVehicle')
