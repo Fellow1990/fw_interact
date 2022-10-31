@@ -1,5 +1,7 @@
 -- Handcuff
 local isHandcuffed, handcuffTimer = false, {}
+dragStatus = {}
+dragStatus.isDragged =  false
 
 AddEventHandler('handcuff', function(data)
 	local handcuffs = exports.ox_inventory:Search('count', 'handcuffs')
@@ -42,6 +44,7 @@ AddEventHandler('esx_interact:handcuff', function()
 			StartHandcuffTimer()
 		end
 	else
+		dragStatus.isDragged = false
 		if Config.EnableHandcuffTimer and handcuffTimer.active then
 			ESX.ClearTimeout(handcuffTimer.task)
 		end
@@ -124,6 +127,59 @@ CreateThread(function()
 	end
 end)
 
+AddEventHandler('escort', function(data)
+	TriggerServerEvent('esx_interact:escort', GetPlayerServerId(NetworkGetPlayerIndexFromPed(data.entity)))
+end)
+
+RegisterNetEvent('esx_interact:escort')-- escort 
+AddEventHandler('esx_interact:escort', function(dragger)
+	if isHandcuffed or IsPedDeadOrDying(PlayerPedId(), true) then
+		dragStatus.isDragged = not dragStatus.isDragged
+		dragStatus.dragger = dragger
+	end
+end)
+
+CreateThread(function()
+	local wasDragged
+	while true do
+		if isHandcuffed then -- and (not IsEntityPlayingAnim(PlayerPedId(), 'mp_arresting', 'idle', 3)) then -- after falling player hands get detached the second and not detcting how it should 
+			TaskPlayAnim(PlayerPedId(), 'mp_arresting', 'idle', 8.0, -8, -1, 49, 0, 0, 0, 0)
+		end
+		if dragStatus.isDragged then
+			Sleep = 50
+			
+			local targetPed = GetPlayerPed(GetPlayerFromServerId(dragStatus.dragger))
+			if DoesEntityExist(targetPed) and IsPedOnFoot(targetPed) and (isHandcuffed or IsPedDeadOrDying(PlayerPedId(), true)) then
+				if not wasDragged then
+					if Config.npwd then 
+						exports.npwd:setPhoneDisabled(true)
+					end
+					AttachEntityToEntity(ESX.PlayerData.ped, targetPed, 11816, 0.54, 0.54, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
+					SetEntityCollision(ESX.PlayerData.ped, 1, 1)
+					wasDragged = true
+				else
+					Wait(1000)
+				end
+			else
+				wasDragged = false
+				dragStatus.isDragged = false
+				DetachEntity(ESX.PlayerData.ped, true, false)
+				if Config.npwd then 
+					exports.npwd:setPhoneDisabled(false)
+				end
+			end
+		elseif wasDragged then
+			wasDragged = false
+			DetachEntity(ESX.PlayerData.ped, true, false)
+			if Config.npwd then 
+				exports.npwd:setPhoneDisabled(false)
+			end
+			
+		end	
+		Wait(1500)
+	end
+end)
+
 function StartHandcuffTimer()
 	if Config.EnableHandcuffTimer and handcuffTimer.active then
 		ESX.ClearTimeout(handcuffTimer.task)
@@ -186,6 +242,7 @@ AddEventHandler('esx_interact:putInVehicle', function()
 
 			if freeSeat then
 				TaskWarpPedIntoVehicle(playerPed, vehicle, freeSeat)
+				dragStatus.isDragged = false
 			end
 		end
 	end
@@ -252,6 +309,12 @@ exports.ox_target:addGlobalPlayer({
 		icon = Config.handcuff_img,
 		label = Config.handcuff,
 		num = 2
+	},
+	{
+		event = "escort",
+		icon = Config.escort_img,
+		label = Config.escort,
+		num = 7
 	},
 	{
 		event = "putveh",
