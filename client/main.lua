@@ -314,31 +314,31 @@ exports.ox_target:addGlobalPlayer({
 		event = "escort",
 		icon = Config.escort_img,
 		label = Config.escort,
-		num = 7
+		num = 3
 	},
 	{
 		event = "putveh",
 		icon = Config.putveh_img,
 		label = Config.putveh,
-		num = 3
+		num = 4
 	},
 	{
 		event = "id",
 		icon = Config.ID_img,
 		label = Config.ID,
-		num = 4
+		num = 5
 	},
 	{
 		event = "id-driver",
 		icon = Config.ID_driver_img,
 		label = Config.ID_driver,
-		num = 5
+		num = 6
 	},
 	{
 		event = "billing",
 		icon = Config.billing_img,
 		label = Config.billing,
-		num = 6
+		num = 7
 	},
 })
 
