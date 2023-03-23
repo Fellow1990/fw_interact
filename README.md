@@ -1,8 +1,8 @@
 # esx_interact
 
-Fellow | Communauté ✨
+✨ Fellow | Development
 
-https://discord.gg/b67Yhf3j8h
+https://discord.gg/RdjuzWkhvh
 
 ✅ Vídeo: https://www.youtube.com/watch?v=sxysJ5IHvwc
 
