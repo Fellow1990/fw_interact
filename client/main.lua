@@ -4,9 +4,16 @@ dragStatus = {}
 dragStatus.isDragged =  false
 
 AddEventHandler('handcuff', function(data)
-	local handcuffs = exports.ox_inventory:Search('count', 'handcuffs')
-	local rope = exports.ox_inventory:Search('count', 'rope')
-	if ESX.PlayerData.job and ESX.PlayerData.job.name == 'police' and handcuffs >= 1 or rope >= 1 and IsEntityPlayingAnim(data.entity, "missminuteman_1ig_2", "handsup_base", 3) then
+	local valid = false
+	local count = exports.ox_inventory:Search('count', Config.Items)
+	if count then
+		for name, count in pairs(count) do
+			if count ~= 0 then
+				valid = true
+			end
+		end
+	end
+	if valid then
 		TriggerServerEvent('esx_interact:handcuff', GetPlayerServerId(NetworkGetPlayerIndexFromPed(data.entity)))
 	else
 		lib.notify({
@@ -20,6 +27,7 @@ AddEventHandler('handcuff', function(data)
 		})
 	end
 end)
+
 
 RegisterNetEvent('esx_interact:handcuff')
 AddEventHandler('esx_interact:handcuff', function()
