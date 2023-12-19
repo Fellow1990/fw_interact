@@ -1,8 +1,8 @@
 # esx_interact
 
-✨ Fellow | Development
+🌍 FiveM | Francophone
 
-https://discord.gg/53APKPmRch
+https://discord.gg/wewesnerQd
 
 https://fellow-store.tebex.io/
 
