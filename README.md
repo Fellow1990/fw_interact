@@ -1,10 +1,6 @@
-# esx_interact
-
-🌍 FiveM | Francophone
+Fellow | Discord
 
 https://discord.gg/wewesnerQd
-
-https://fellow-store.tebex.io/
 
 ✅ Vídeo: https://www.youtube.com/watch?v=sxysJ5IHvwc
 
