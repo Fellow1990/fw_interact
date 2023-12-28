@@ -28,6 +28,7 @@ AddEventHandler('handcuff', function(data)
 	end
 end)
 
+local unarmedHash = joaat('WEAPON_UNARMED')
 
 RegisterNetEvent('esx_interact:handcuff')
 AddEventHandler('esx_interact:handcuff', function()
@@ -42,7 +43,7 @@ AddEventHandler('esx_interact:handcuff', function()
 		RemoveAnimDict('mp_arresting')
 		SetEnableHandcuffs(playerPed, true)
 		DisablePlayerFiring(playerPed, true)
-		SetCurrentPedWeapon(playerPed, GetHashKey('WEAPON_UNARMED'), true)
+		SetCurrentPedWeapon(playerPed, unarmedHash, true)
 		SetPedCanPlayGestureAnims(playerPed, false)
 		DisplayRadar(false)
 		if Config.EnableHandcuffTimer then
