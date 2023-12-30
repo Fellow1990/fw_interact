@@ -1,4 +1,3 @@
--- Handcuff
 local isHandcuffed, handcuffTimer = false, {}
 dragStatus = {}
 dragStatus.isDragged =  false
