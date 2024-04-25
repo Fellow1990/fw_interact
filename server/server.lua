@@ -3,9 +3,9 @@ AddEventHandler('esx_interact:handcuff', function(target)
 	TriggerClientEvent('esx_interact:handcuff', target)
 end)
 
-RegisterNetEvent('esx_interact:escort')
-AddEventHandler('esx_interact:escort', function(target)
-		TriggerClientEvent('esx_interact:escort', target, source)
+RegisterNetEvent('esx_interact:drag')
+AddEventHandler('esx_interact:drag', function(target)
+	TriggerClientEvent('esx_interact:drag', target, source)
 end)
 
 RegisterNetEvent('esx_interact:putInVehicle')
