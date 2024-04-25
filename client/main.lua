@@ -127,34 +127,34 @@ CreateThread(function()
 end)
 
 AddEventHandler('escort', function(data)
-	TriggerServerEvent('esx_interact:escort', GetPlayerServerId(NetworkGetPlayerIndexFromPed(data.entity)))
+	local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+	if closestPlayer ~= -1 and closestDistance <= 3.0 then
+        TriggerServerEvent('esx_interact:drag', GetPlayerServerId(closestPlayer))
+    end
 end)
 
-RegisterNetEvent('esx_interact:escort')-- escort 
-AddEventHandler('esx_interact:escort', function(dragger)
-	if isHandcuffed or IsPedDeadOrDying(cache.ped, true) then
+RegisterNetEvent('esx_interact:drag')
+AddEventHandler('esx_interact:drag', function(copId)
+	if isHandcuffed then
 		dragStatus.isDragged = not dragStatus.isDragged
-		dragStatus.dragger = dragger
+		dragStatus.CopId = copId
 	end
 end)
 
-CreateThread(function()
+
+Citizen.CreateThread(function()
 	local wasDragged
+
 	while true do
-		if isHandcuffed then
-			TaskPlayAnim(cache.ped, 'mp_arresting', 'idle', 8.0, -8, -1, 49, 0, 0, 0, 0)
-		end
-		if dragStatus.isDragged then
-			Sleep = 50
-			
-			local targetPed = Getcache.ped(GetPlayerFromServerId(dragStatus.dragger))
-			if DoesEntityExist(targetPed) and IsPedOnFoot(targetPed) and (isHandcuffed or IsPedDeadOrDying(cache.ped, true)) then
+		local Sleep = 1500
+
+		if isHandcuffed and dragStatus.isDragged then
+			Sleep = 0
+			local targetPed = GetPlayerPed(GetPlayerFromServerId(dragStatus.CopId))
+
+			if DoesEntityExist(targetPed) and IsPedOnFoot(targetPed) and not IsPedDeadOrDying(targetPed, true) then
 				if not wasDragged then
-					if Config.npwd then 
-						exports.npwd:setPhoneDisabled(true)
-					end
-					AttachEntityToEntity(ESX.PlayerData.ped, targetPed, 11816, 0.54, 0.54, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
-					SetEntityCollision(ESX.PlayerData.ped, 1, 1)
+					AttachEntityToEntity(ESX.PlayerData.ped, targetPed, 11816, 0.54, 0.54, 0.0, 0.0, 0.0, 0.0, false, true, true, false, 2, true)
 					wasDragged = true
 				else
 					Wait(1000)
@@ -163,21 +163,15 @@ CreateThread(function()
 				wasDragged = false
 				dragStatus.isDragged = false
 				DetachEntity(ESX.PlayerData.ped, true, false)
-				if Config.npwd then 
-					exports.npwd:setPhoneDisabled(false)
-				end
 			end
 		elseif wasDragged then
 			wasDragged = false
 			DetachEntity(ESX.PlayerData.ped, true, false)
-			if Config.npwd then 
-				exports.npwd:setPhoneDisabled(false)
-			end
-			
-		end	
-		Wait(1500)
+		end
+	Wait(Sleep)
 	end
 end)
+
 
 function StartHandcuffTimer()
 	if Config.EnableHandcuffTimer and handcuffTimer.active then
