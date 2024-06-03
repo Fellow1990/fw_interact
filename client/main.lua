@@ -147,7 +147,7 @@ CreateThread(function()
 		if dragStatus.isDragged then
 			Sleep = 50
 			
-			local targetPed = Getcache.ped(GetPlayerFromServerId(dragStatus.dragger))
+			local targetPed = GetPlayerPed(GetPlayerFromServerId(dragStatus.dragger))
 			if DoesEntityExist(targetPed) and IsPedOnFoot(targetPed) and (isHandcuffed or IsPedDeadOrDying(cache.ped, true)) then
 				if not wasDragged then
 					if Config.npwd then 
