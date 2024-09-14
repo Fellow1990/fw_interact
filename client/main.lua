@@ -13,7 +13,7 @@ AddEventHandler('handcuff', function(data)
 		end
 	end
 	if valid then
-		TriggerServerEvent('esx_interact:handcuff', GetPlayerServerId(NetworkGetPlayerIndexFromPed(data.entity)))
+		TriggerServerEvent('fw_interact:handcuff', GetPlayerServerId(NetworkGetPlayerIndexFromPed(data.entity)))
 	else
 		lib.notify({
 			description = Config.RequiredItem,
@@ -28,8 +28,8 @@ AddEventHandler('handcuff', function(data)
 end)
 
 
-RegisterNetEvent('esx_interact:handcuff')
-AddEventHandler('esx_interact:handcuff', function()
+RegisterNetEvent('fw_interact:handcuff')
+AddEventHandler('fw_interact:handcuff', function()
 	isHandcuffed = not isHandcuffed
 	if isHandcuffed then
 		RequestAnimDict('mp_arresting')
@@ -62,8 +62,8 @@ AddEventHandler('esx_interact:handcuff', function()
 	end
 end)
 
-RegisterNetEvent('esx_interact:unrestrain')
-AddEventHandler('esx_interact:unrestrain', function()
+RegisterNetEvent('fw_interact:unrestrain')
+AddEventHandler('fw_interact:unrestrain', function()
 	if isHandcuffed then
 		isHandcuffed = false
 		ClearPedSecondaryTask(cache.ped)
@@ -127,11 +127,11 @@ CreateThread(function()
 end)
 
 AddEventHandler('escort', function(data)
-	TriggerServerEvent('esx_interact:escort', GetPlayerServerId(NetworkGetPlayerIndexFromPed(data.entity)))
+	TriggerServerEvent('fw_interact:escort', GetPlayerServerId(NetworkGetPlayerIndexFromPed(data.entity)))
 end)
 
-RegisterNetEvent('esx_interact:escort')-- escort 
-AddEventHandler('esx_interact:escort', function(dragger)
+RegisterNetEvent('fw_interact:escort')-- escort 
+AddEventHandler('fw_interact:escort', function(dragger)
 	if isHandcuffed or IsPedDeadOrDying(cache.ped, true) then
 		dragStatus.isDragged = not dragStatus.isDragged
 		dragStatus.dragger = dragger
@@ -196,7 +196,7 @@ function StartHandcuffTimer()
 			icon = 'handcuffs',
 			type = 'inform'
 		})
-		TriggerEvent('esx_interact:unrestrain')
+		TriggerEvent('fw_interact:unrestrain')
 		handcuffTimer.active = false
 	end)
 end
@@ -220,11 +220,11 @@ end)
 
 -- Put in vehicle
 AddEventHandler('putveh', function(data)
-	TriggerServerEvent('esx_interact:putInVehicle', GetPlayerServerId(NetworkGetPlayerIndexFromPed(data.entity)))
+	TriggerServerEvent('fw_interact:putInVehicle', GetPlayerServerId(NetworkGetPlayerIndexFromPed(data.entity)))
 end)
 
-RegisterNetEvent('esx_interact:putInVehicle')
-AddEventHandler('esx_interact:putInVehicle', function()
+RegisterNetEvent('fw_interact:putInVehicle')
+AddEventHandler('fw_interact:putInVehicle', function()
 	if isHandcuffed then
 		local vehicle, distance = ESX.Game.GetClosestVehicle()
 		if vehicle and distance < 5 then
@@ -246,12 +246,12 @@ end)
 AddEventHandler('outveh', function(data)
 	local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
 	if closestPlayer ~= -1 and closestDistance <= 3.0 then
-		TriggerServerEvent('esx_interact:OutVehicle', GetPlayerServerId(closestPlayer))
+		TriggerServerEvent('fw_interact:OutVehicle', GetPlayerServerId(closestPlayer))
 	end
 end)
 
-RegisterNetEvent('esx_interact:OutVehicle')
-AddEventHandler('esx_interact:OutVehicle', function()
+RegisterNetEvent('fw_interact:OutVehicle')
+AddEventHandler('fw_interact:OutVehicle', function()
 	if IsPedSittingInAnyVehicle(cache.ped) then
 		local vehicle = GetVehiclePedIsIn(cache.ped, false)
 		TaskLeaveVehicle(cache.ped, vehicle, 64)

@@ -5,7 +5,7 @@ lua54 'yes'
 
 description 'ESX interact'
 
-version '1.7.5'
+version '1.0.0'
 
 shared_scripts {
 	'@ox_lib/init.lua',
